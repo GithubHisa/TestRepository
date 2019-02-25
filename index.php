@@ -1,30 +1,40 @@
-<?
-$tmp_url = "http://weather.livedoor.com/forecast/webservice/json/v1?city=016010";
-$json = file_get_contents($tmp_url,true) or die("Failed to get json");
-$json = mb_convert_encoding($json, 'UTF8', 'ASCII,JIS,UTF-8,EUC-JP,SJIS-WIN');
-$obj = json_decode($json);
-
-$img_url = $obj->forecasts[0]->image->url;
-$date = $obj->forecasts[0]->date;
-$title = $obj->forecasts[0]->image->title;
-
-$min = $obj->forecasts[1]->temperature->min->celsius;
-$max = $obj->forecasts[1]->temperature->max->celsius;
-$telop = $obj->forecasts[1]->telop;
-$tomorrow = $obj->forecasts[1]->dateLabel;
-$tomorrow_img = $obj->forecasts[1]->image->url;
-
+<?php
+$wetherUrl  = "http://weather.livedoor.com/forecast/webservice/json/v1?city=130010";
+$wetherData = file_get_contents($wetherUrl, true);
+$data = json_decode($wetherData);
 ?>
-
-<h1>weather forecast</h1>
-<div>
-<p> TODAY:<?php echo $date;?></p>
-<p> TODAY TITLE:<?php echo $title; ?></p>
-<p> TODAY IMAGE:<?php echo "<img src='".$img_url."'>"; ?></p>
-<p> TOMORROW TELOP:<?php echo $telop ?></p>
-<p> TOMORROW:<?php echo $tomorrow; ?></p>
-<p> TOMORROW MAX TEMPARATURE:<?php echo $max; ?></p>
-<p> TOMORROW MIN TEMPARATURE:<?php echo $min; ?></p>
-<p> TOMORROW IMAGE:<?php echo "<img src='".$tomorrow_img."'>"; ?></p>
-
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta charset="utf-8">
+<title>天気予報</title>
+<meta name="keywords" content="">
+<meta name="description" content="">
+<style>
+#content {
+    color: #666;
+}
+li {
+    list-style: none;
+    margin-bottom: 20px;
+}
+</style>
+</head>
+<body>
+<div id="content">
+    <h1>天気予報</h1>
+    <div>
+        <ul>
+            <?php foreach ($data->forecasts as $data): ?>
+                <li>
+                    <?php echo preg_replace('#-#', '/', $data->date); ?>
+                    <img src="<?php echo $data->image->url; ?>" />
+                    <?php echo $data->telop; ?>
+                </li>
+            <?php endforeach; ?>
+        </ul>
+    </div>
 </div>
+</body>
+</html>
