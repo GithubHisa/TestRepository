@@ -1,15 +1,4 @@
 <?
-echo 'phpのテストです。<br>';
-
-$dbinfo = parse_url(getenv('DATABASE_URL'));
-
-$dsn = 'pgsql:host=' . $dbinfo['host'] . ';dbname=' . substr($dbinfo['path'], 1);
-
-$pdo = new PDO($dsn, $dbinfo['user'], $dbinfo['pass']);
-var_dump($pdo->getAttribute(PDO::ATTR_SERVER_VERSION));
-
-phpinfo();
-
 $tmp_url = "http://weather.livedoor.com/forecast/webservice/json/v1?city=016010";
 $json = file_get_contents($tmp_url,true) or die("Failed to get json");
 $json = mb_convert_encoding($json, 'UTF8', 'ASCII,JIS,UTF-8,EUC-JP,SJIS-WIN');
