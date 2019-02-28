@@ -35,6 +35,14 @@ li {
             <?php endforeach; ?>
         </ul>
     </div>
+    <div>
+        <ul>
+            <?php
+                $char_data = mb_convert_encoding(hex2bin(sprintf("%08s", '1F914')), 'UTF-8', 'UTF-32');
+                echo $char_data;
+            ?>
+        </ul>
+    </div>
 </div>
 </body>
 </html>
